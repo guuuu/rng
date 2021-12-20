@@ -13,6 +13,9 @@ $("#pop_winner").click(function() {
 
 $("#bt").click(() => {
     let entries = $("#main").children().length;
+
+    if(entries < 2){ show_msg("You need at least 2 entries..."); return; }
+    
     let run = true;
     let last = null;
     let flag = false;
@@ -52,7 +55,7 @@ $("#entrie").keypress(function(e) { if(e.keyCode === 13){ addEntrie(String($("#e
 let addEntrie = (val) => {
     let stop = false;
     let s = document.createElement("div");
-
+    console.log(parseInt(getComputedStyle(document.documentElement).getPropertyValue("--max")));
     if($("#main").children().length < 49){
         $(s).addClass("square");
         $("#main").append(s);
@@ -68,13 +71,15 @@ let addEntrie = (val) => {
     
         $("#entrie").val("");
     }
-    else{
-        $("#msg").html("You can't have more entries...");
-        $("#msg").removeClass("hide");
-        setTimeout(() => { $("#msg").addClass("hide"); $("#msg").html(""); }, 2500);
-    }
+    else{ show_msg("You can't have more entries..."); }
 }
 
 $("#add_entrie").click(() => { addEntrie(String($("#entrie").val())); })
 
 $(document).on("click", ".square", function(){ $(this).remove(); })
+
+function show_msg(msg){
+    $("#msg").html(msg);
+    $("#msg").removeClass("hide");
+    setTimeout(() => { $("#msg").addClass("hide"); $("#msg").html(""); }, 2500);
+}
